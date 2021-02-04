@@ -1,7 +1,6 @@
-This project is for educational purposes only.
+##This project is for educational purposes only.
 
-================================================================================
-pseudocode:
+##pseudocode:
 
 ## functie met menu aanmaken:
     vraag gebruiker of ze speler 1 of 2 willen zijn met input
@@ -43,7 +42,7 @@ pseudocode:
     probeer:
         input, vraag speler 2 om gok te doen
     als de input verkeerd is:
-        vraag normaals om gok te doen, herinner de speler aan het formaat '1234'
+        vraag nogmaals om gok te doen, herinner de speler aan het formaat '1234'
 
     functie geeft de gok terug
 
