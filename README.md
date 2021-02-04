@@ -2,12 +2,12 @@ This project is for educational purposes only.
 
 pseudocode:
 
-bronmateriaal en opzet:
-    - Boss, R. (2021, 19 januari). HU Structured Programming - Mastermind. Youtube. https://www.youtube.com/watch?v=rSzX2TtjvHA&feature=youtu.be
-    - Kooi, B. (2005). YET ANOTHER MASTERMIND STRATEGY. ICGA Journal, 28(1), 13–20. https://doi.org/10.3233/icg-2005-28105
+## bronmateriaal en opzet:
+    Boss, R. (2021, 19 januari). HU Structured Programming - Mastermind. Youtube. https://www.youtube.com/watch?v=rSzX2TtjvHA&feature=youtu.be
+    Kooi, B. (2005). YET ANOTHER MASTERMIND STRATEGY. ICGA Journal, 28(1), 13–20. https://doi.org/10.3233/icg-2005-28105
         
 
-##gebruik van bibliotheken:
+## gebruik van bibliotheken:
     random generator
     TBA
 
@@ -70,6 +70,5 @@ bronmateriaal en opzet:
         als de gok een of meerdere van dezelfde pin uit het antwoord heeft EN op een andere plek:
             geef feedback terug als bijv: 1,0,1,0 > 2 zitten in het antwoord, maar op andere plek.
 
-    functie geeft feedback terug, bijv: [1,0,2,0]
-
-
+    functie geeft feedback terug, bijv: [1,0,2,0] count van 0, van 1 en van 2
+    (rekening houdend met een max aantal pinnen van 4, evt. dictionary)
