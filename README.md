@@ -1,16 +1,16 @@
-##This project is for educational purposes only.
+This project is for educational purposes only.
 
-##pseudocode:
+pseudocode:
 
-##bronmateriaal en opzet:
-    bronmateriaal:
-    - HU Structured Programming - Mastermind https://www.youtube.com/watch?v=rSzX2TtjvHA&list=PLt2ajXV5YmM7g9-BkXP33An6jn-HAxmM_&index=5
+bronmateriaal en opzet:
+    - Boss, R. (2021, 19 januari). HU Structured Programming - Mastermind. Youtube. https://www.youtube.com/watch?v=rSzX2TtjvHA&feature=youtu.be
     - Kooi, B. (2005). YET ANOTHER MASTERMIND STRATEGY. ICGA Journal, 28(1), 13–20. https://doi.org/10.3233/icg-2005-28105
         
 
 ##gebruik van bibliotheken:
-    random
-    
+    random generator
+    TBA
+
 
 ## functie met menu aanmaken:
     vraag gebruiker of ze speler 1 of 2 willen zijn met input
