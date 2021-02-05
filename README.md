@@ -1,74 +1,90 @@
 This project is for educational purposes only.
 
-pseudocode:
 
-## bronmateriaal en opzet:
+## Bronmateriaal en opzet:
     Boss, R. (2021, 19 januari). HU Structured Programming - Mastermind. Youtube. https://www.youtube.com/watch?v=rSzX2TtjvHA&feature=youtu.be
     Kooi, B. (2005). YET ANOTHER MASTERMIND STRATEGY. ICGA Journal, 28(1), 13–20. https://doi.org/10.3233/icg-2005-28105
         
 
-## gebruik van bibliotheken:
+## Use of modules:
     random generator
     TBA
 
 
-## functie met menu aanmaken:
-    vraag gebruiker of ze speler 1 of 2 willen zijn met input
+## Summary:
+    Program will as the player what gamemode they want to play.
+    Player confirms choice.
+    Game will start in that gamemode.
+    If the player plays against another player, they will have to take turns.
+    If the player decides to play against the bot, they can select a difficulty, the bot will perform a different strategy based on this choice.
+    If the player chooses to watch two bots play, they "guessing" bot will perform a random strategy.
+    The guessing player gets 10 turns to guess the secret code combination of the other player.
+    The player with the code gets to give feedback in the form of white, black or no pins or any combination thereof consisting of a maximum of 4 pins.
+    A black pin means: One of the guesses is in the right place.
+    A white pin means: One of the guesses was right, but sits in the wrong place.
+    If the code doesn't get guessed by player 1, player 2 wins.
+    If the code gets guessed within 10 turns, player 1 wins.
+
+
+## pseudocode:
+## Function for menu creation:
+    The menu what gamemode the player wants to play
     
-    als speler = speler 1:
-    laat code kiezen
+    if player = player 1:
+        let player pick code consisting of 4 spots, with a choice of 6 colours
 
-    als speler = speler 2:
-    roep functie code_genereren.
+    if player = player 2:
+        call on function to create random code for player 1
 
-    functie geeft speler terug
+    function returns player choice
     
 
-## functie random code:
-    geef key, value pairs van cijfers en kleuren waarbij:
-    key = cijfer
-    value = kleur
+## Functie random code:
+    Function creates random code in the form of a key, value pair
+    key = number
+    value = colour
     
-    de dictionary length is 6
+    the dictionary length is 6
 
-    generate random code uit dictionary met een lengte van 4
-    de code is een tekst, voorbeeld: '1234'
+    generate random code from dictionary with a lengte of 4
+    This is still a key, value pair
 
-    functie geeft de code terug
+    functie returns code
     
 
-## genereer bord:
-    map het hele bord uit:
-
-    bord = lengte * breedte bord 
-    speelgedeelte speler 1 = zijkant 2 bij zoveel
-    
-    speelgedeelte speler 2 = middelste 4 bij zoveel
-
-    functie geeft bord terug
+## Generate rules:
+    If player 2 has guessed 10 times
+        the game ends and player 1 wins
+    if player 2 has guessed 8 or 9 times
+        give the player a warning with how many moves are left
 
 
-## functie gokken:
-    probeer:
-        input, vraag speler 2 om gok te doen
-    als de input verkeerd is:
-        vraag nogmaals om gok te doen, herinner de speler aan het formaat '1234'
 
-    functie geeft de gok terug
+## Function guessing:
+    try:
+        input, ask player 2 to make a guess
+    if the input is too long unreadable, not in the right form
+        ask the player to make another guess, reminding them of the format
+
+    function returns the guess
 
 
-## functie controleer gok:
-    gok = roep functie gokken aan
-    feedback = een lege tekst: ''
+## Function check guess:
+    guess = call on function guessing
+    feedback = empty text: ''
+    answer = function code
 
-    controleer of gok gelijk is aan antwoord
-        als de gok gelijk is aan antwoord
-            geef terug dat de speler heeft gewonnen
 
-        als de gok een of meerdere van dezelfde pin op de juiste plek heeft staan
-            geef feedback terug als bijv: 2,0,0,0 > 1 staat goed, 3 zitten er niet in
-        als de gok een of meerdere van dezelfde pin uit het antwoord heeft EN op een andere plek:
-            geef feedback terug als bijv: 1,0,1,0 > 2 zitten in het antwoord, maar op andere plek.
+    check if guess is the same as the answer
+        if the guess and the answer are the same
+            return that player has won the game
 
-    functie geeft feedback terug, bijv: [1,0,2,0] count van 0, van 1 en van 2
-    (rekening houdend met een max aantal pinnen van 4, evt. dictionary)
+        if the guess has one or more pins in the right place
+            give feedback like: 2,0,0,0 > 1 is in the right place, 3 are not in the code
+
+        if the guess has one or more of the same pin from the answer AND they are in the wrong place
+            give feedback like: 1,0,1,0 > 2 of the pins are in the code, but in a different place
+
+    function returns feedback in the form of a count of 0's, 1's and 2's
+    for example: there were two 1's and two 0's    
+    (keeping in mind a maximum amount of pins of 4)
