@@ -14,6 +14,22 @@ def random_code():
     return code # <= code is a list with tuples
 
 
+# def feedback():
+#     """Function for giving feedback on the guesses a player makes.
+#     Function is only called if player 1 is a bot."""
+#     guess = guessing()
+#
+#
+#     #return feedback [1,2,0,1]
+#
+#
+# def guessing():
+#     """Let's player 2 do a maximum of 10 tries to guess the code of player 1.
+#     Calls on function feedback if player 1 is a bot. Else it asks for manual feedback."""
+#
+#     #return guess 'GBYP'
+
+
 def game_mode_1_player1():
     """This game mode will play when the player chooses option 1 in the menu.
     The player plays against a bot as the one who creates a code and gives feedback."""
@@ -33,10 +49,12 @@ def game_mode_1_player2():
           'Your choices are:\nB: Blue\nY: Yellow\nR: Red\nG: Green\nP: Purple\nO: Orange')
 
     guesses = 0
+    black = 0
+    white = 0
 
     while guesses < 11:
         try:
-            guess = str(input('Take a guess:\n'))
+            guess = str(input('Take a guess:\n')).upper()
             guesses += 1
             if guess == code:
                 print(f'Congratulations, you won within {guesses} guess(es)!')
@@ -44,14 +62,23 @@ def game_mode_1_player2():
             elif len(guess) > 4 or len(guess) < 4:
                 print('Your guess should consist of 4 letters.')
                 continue
+
+            white = 0  # <= stands for number of equal pins in wrong place
+            black = 0  # <= stands for number of equal pins in right place
+
+            for i in guess:
+                print(f'{guess.index(i)} and {code.index(i)}')
+                if i in code and code.index(i) == guess.index(i): #<= bugged: if 2 following characters are equal, it looks at the first input and compares it to the input of the code?
+                    black += 1
+
+                elif i in code and code.index(i) != guess.index(i): #<= bugged: if 2 following characters are equal, it looks at the first input and compares it to the input of the code?
+                    white += 1
+
+            print(f'You have {white} white pin(s) and {black} black pin(s).\nYou have {10-guesses} guesses left.\n')
+
         except ValueError:
             print('Sorry, that is not a viable input.')
             continue
-
-
-
-
-    print('Chosen game mode: 1, player 2')
 
 
 def game_mode_2_player1():
