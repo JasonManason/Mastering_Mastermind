@@ -8,7 +8,7 @@ This project is for educational purposes only.
 
 ## Use of modules:
     random generator
-    TBA
+    itertools
 
 
 ## Summary:
