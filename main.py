@@ -1,8 +1,6 @@
 #Jason de Mey, Klas AI V1B, Opdracht 1: Mastering Mastermind
 import random
-import strategies as strats
-import game_rules as rules
-import game_modes as gm
+
 def random_code():
     """Creates a random code if player 1 is a bot."""
     colours = {'B':'Blue','Y':'Yellow','R':'Red','G':'Green','P':'Purple','O':'Orange'}
@@ -29,31 +27,50 @@ def random_code():
 #
 #     #return guess 'GBYP'
 
+def simple_strategy():
+    """A guessing algorithm for a bot (as player 2)."""
+
+    #random
+
+    #if feedback is n white:
+    #if feedback is n black:
+
 
 def game_mode_1_player1():
     """This game mode will play when the player chooses option 1 in the menu.
     The player plays against a bot as the one who creates a code and gives feedback."""
     print('Chosen game mode: 1, player 1')
+    code = str(input('You can now enter a code consisting of a 4 letter combination of the first letters of the colours, like so: "YGBP" for Yellow, Green, Blue, Purple.\n'
+              'Your choices are:\nB: Blue\nY: Yellow\nR: Red\nG: Green\nP: Purple\nO: Orange\n'
+              'The bot will try to guess your code within 10 tries.\n')).upper()
+
+    # call on algorithm for guessing
+
+    #input (give feedback: nr of black pins:)
+    #input give feedback: nr of white pins
+
+    #if nr of black pins = 4: computer wins
+
+    #if nr of black pins: change possible_answers list
+    #if nr of white pins: change possible_answers list          # <= niet wegstrepen > new_list_possible_guesses
+
 
 
 def game_mode_1_player2():
     """This game mode will play when the player chooses option 1 in the menu.
     The player plays against a bot and has to guess the right code."""
     code_list = random_code()
-    print(f'code to guess: {code_list[0][1]}, {code_list[1][1]}, {code_list[2][1]}, {code_list[3][1]}') # <=cheatsheet
     code = str((code_list[0][0])+(code_list[1][0])+(code_list[2][0])+(code_list[3][0]))
-    print(code)
-
+    #print(code)
     print('You are now allowed to guess the code, the code is 4 characters long, there may or may not be duplicate colours.\n'
           'Enter a 4 letter combination of the first letters of the colours, like so: "YGBP" for Yellow, Green, Blue, Purple.\n'
           'Your choices are:\nB: Blue\nY: Yellow\nR: Red\nG: Green\nP: Purple\nO: Orange')
 
     guesses = 0
-    black = 0
-    white = 0
+    valid_chars = ['B', 'Y', 'R', 'G', 'P', 'O']
 
-    while guesses < 11:
-        try:
+    while guesses < 11: #<= while True?
+        try: # <= kan evt functie aanroepen? > returns True or False
             guess = str(input('Take a guess:\n')).upper()
             guesses += 1
             if guess == code:
@@ -61,18 +78,26 @@ def game_mode_1_player2():
                 break
             elif len(guess) > 4 or len(guess) < 4:
                 print('Your guess should consist of 4 letters.')
-                continue
+                continue # <= opbreken
+            else:
+                black = 0
+                white = 0
+                black_checked = []
+                black_index_checked = []
+                white_checked = []
+                white_index_checked = []
 
-            white = 0  # <= stands for number of equal pins in wrong place
-            black = 0  # <= stands for number of equal pins in right place
+                for i, value in enumerate(guess):
+                    if value == code[i]:
+                        black += 1
+                        black_checked.append(value)
+                        black_index_checked.append(i)
 
-            for i in guess:
-                print(f'{guess.index(i)} and {code.index(i)}')
-                if i in code and code.index(i) == guess.index(i): #<= bugged: if 2 following characters are equal, it looks at the first input and compares it to the input of the code?
-                    black += 1
-
-                elif i in code and code.index(i) != guess.index(i): #<= bugged: if 2 following characters are equal, it looks at the first input and compares it to the input of the code?
-                    white += 1
+                for i, value in enumerate(guess):
+                    if value in code and i not in white_index_checked and i not in black_index_checked:
+                        white += 1
+                        white_checked.append(value)
+                        white_index_checked.append(i)
 
             print(f'You have {white} white pin(s) and {black} black pin(s).\nYou have {10-guesses} guesses left.\n')
 
