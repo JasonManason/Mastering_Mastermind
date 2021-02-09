@@ -1,5 +1,6 @@
 #Jason de Mey, Klas AI V1B, Opdracht 1: Mastering Mastermind
 import random
+import itertools
 
 def random_code():
     """Creates a random code if player 1 is a bot."""
@@ -12,48 +13,141 @@ def random_code():
     return code # <= code is a list with tuples
 
 
-# def feedback():
-#     """Function for giving feedback on the guesses a player makes.
-#     Function is only called if player 1 is a bot."""
-#     guess = guessing()
-#
-#
-#     #return feedback [1,2,0,1]
-#
-#
-# def guessing():
-#     """Let's player 2 do a maximum of 10 tries to guess the code of player 1.
-#     Calls on function feedback if player 1 is a bot. Else it asks for manual feedback."""
-#
-#     #return guess 'GBYP'
+def random_guess():
+    """Bot does a random guess as a test."""
+    valid_chars = ['B', 'Y', 'R', 'G', 'P', 'O']
+    all_combinations = (list(itertools.product(valid_chars, repeat=4))) # <= list with tuples of 4
+    #print(all_combinations) # <= 1296 combinaties mogelijk
+
+    tuple = all_combinations[random.randint(0, 1296)] # <= [0] == ('B', 'B', 'B', 'B')
+    guess = ''
+
+    #print(tuple)
+
+    for i in tuple:
+        guess += i
+
+    print(guess)
+
+
+    return guess
+
+
+def feedback(guess, code):
+    """Takes the current guess and code as input and returns feedback in the form of black and white pins.
+    This is a tuple, for example: (0,1)."""
+    print(f'in feedback: guess: {guess}\tcode: {code}')
+    black = 0
+    white = 0
+    black_checked = []
+    black_index_checked = []
+    white_checked = []
+    white_index_checked = []
+
+    for i, value in enumerate(guess):
+        if value == code[i]:
+            black += 1
+            black_checked.append(value)
+            black_index_checked.append(i)
+
+    for i, value in enumerate(guess):
+        if value in code and i not in white_index_checked and i not in black_index_checked:
+            white += 1
+            white_checked.append(value)
+            white_index_checked.append(i)
+
+    print(f'feedback = {black}, {white}')
+    return (black, white)
+
 
 def simple_strategy():
     """A guessing algorithm for a bot (as player 2)."""
+    valid_chars = ['B', 'Y', 'R', 'G', 'P', 'O']
+    all_combinations = (list(itertools.product(valid_chars, repeat=4))) # <= list with tuples of 4
+    #print(all_combinations) # <= 1296 combinaties mogelijk
+    first_guess = True
 
-    #random
+    #black, white == (0, 0)
 
-    #if feedback is n white:
-    #if feedback is n black:
+    if first_guess:
+        return 'BBYY' # <= eerste guess hardcoded, pragmatised
+
+
+    new_combinations = []
+
+
+    # onthoud alle guesses en voeg die NIET in possible_new_guesses
+    # neem feedback mee en pas toe op possble new guesses> haal uit wat niet kan
+
+    print(all_combinations[0])
+
+
+    return guess
 
 
 def game_mode_1_player1():
     """This game mode will play when the player chooses option 1 in the menu.
     The player plays against a bot as the one who creates a code and gives feedback."""
-    print('Chosen game mode: 1, player 1')
+    valid_chars = ['B', 'Y', 'R', 'G', 'P', 'O']
     code = str(input('You can now enter a code consisting of a 4 letter combination of the first letters of the colours, like so: "YGBP" for Yellow, Green, Blue, Purple.\n'
               'Your choices are:\nB: Blue\nY: Yellow\nR: Red\nG: Green\nP: Purple\nO: Orange\n'
               'The bot will try to guess your code within 10 tries.\n')).upper()
 
-    # call on algorithm for guessing
+    for i in code:
+        if len(code) < 4 or len(code) > 4 or i not in valid_chars:
+            print('The code should be a precise length of 4 and only consist of valid colours.\n')
+            game_mode_1_player1()
 
-    #input (give feedback: nr of black pins:)
-    #input give feedback: nr of white pins
+    guesses = 0
+    easy = False
+    medium = False
+    hard = False
 
-    #if nr of black pins = 4: computer wins
+    while True:
+        difficulty = input('Do you want to play on Easy, Medium or Hard?\n').capitalize()
+        if difficulty == 'Easy':
+            easy = True
+            break
+        elif difficulty == 'Medium':
+            medium = True
+            #game_mode = simple_strategy()
+            print('Medium mode WIP')
+            break
+        elif difficulty == 'Hard':
+            hard = True
+            #looking_ahead()
+            print('Hard mode WIP')
+            break
+        print('Please type in your wished difficulty mode.')
+        continue
 
-    #if nr of black pins: change possible_answers list
-    #if nr of white pins: change possible_answers list          # <= niet wegstrepen > new_list_possible_guesses
+    #guess = function > returns random guess 'BBYY'
 
+    while easy:
+        if guesses < 11:
+            guess = random_guess()
+            guesses += 1
+            if guess == code:
+                print(f'The bot has won within {guesses} guess(es).')
+                break
+            print(f'The bot has guessed: {guess} and has {11-guesses} guess(es) left.')
+
+
+    while medium:
+        if guesses < 11:
+            guess = simple_strategy()
+            guesses += 1
+            if guess == code:
+                print(f'The bot has won within {guesses} guess(es).')
+                break
+            print(f'The bot has guessed: {guess} and has {11 - guesses} guess(es) left.')
+            feedback(guess, code)
+        break
+
+
+    while hard:
+        print('Hard mode WIP')
+        break
 
 
 def game_mode_1_player2():
@@ -69,8 +163,8 @@ def game_mode_1_player2():
     guesses = 0
     valid_chars = ['B', 'Y', 'R', 'G', 'P', 'O']
 
-    while guesses < 11: #<= while True?
-        try: # <= kan evt functie aanroepen? > returns True or False
+    while guesses < 11:
+        try:
             guess = str(input('Take a guess:\n')).upper()
             guesses += 1
             if guess == code:
@@ -78,26 +172,9 @@ def game_mode_1_player2():
                 break
             elif len(guess) > 4 or len(guess) < 4:
                 print('Your guess should consist of 4 letters.')
-                continue # <= opbreken
-            else:
-                black = 0
-                white = 0
-                black_checked = []
-                black_index_checked = []
-                white_checked = []
-                white_index_checked = []
-
-                for i, value in enumerate(guess):
-                    if value == code[i]:
-                        black += 1
-                        black_checked.append(value)
-                        black_index_checked.append(i)
-
-                for i, value in enumerate(guess):
-                    if value in code and i not in white_index_checked and i not in black_index_checked:
-                        white += 1
-                        white_checked.append(value)
-                        white_index_checked.append(i)
+                continue
+            black = feedback(guess, code)[0]
+            white = feedback(guess,code)[1]
 
             print(f'You have {white} white pin(s) and {black} black pin(s).\nYou have {10-guesses} guesses left.\n')
 
