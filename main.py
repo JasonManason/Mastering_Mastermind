@@ -5,7 +5,6 @@ import itertools
 def random_code():
     """
     Creates a random code if player 1 is a bot.
-
     Returns:
         a random code as a string list with tuples, like [('B', 'Blue'), ('B', 'Blue'), ('Y', 'Yellow'), ('Y', 'Yellow')].
     """
@@ -21,7 +20,6 @@ def random_code():
 def possible_combinations():
     """
     Creates a list with possible code combinations.
-
     Returns:
         List with possible combinations as a list with tuples.
     """
@@ -65,7 +63,7 @@ def new_combinations(feedback:tuple):
 
 
         else:
-            print('Nog niet gemaakt')
+            print('Not yet made, WIP.')
 
         # FEEDBACK THAT'S NOT SUM 4 OR 0:
 
@@ -126,7 +124,6 @@ def feedback(guess:str, code:str):
 def random_guess():
     """
     Bot does a random guess as a test, it does not take feedback in consideration.
-
     Returns:
         A random guess in the form of a string, like 'BBYY'.
     """
@@ -140,34 +137,27 @@ def random_guess():
     return guess
 
 
-def simple_strategy(code:str):
+def simple_strategy():
     """
     A guessing algorithm for a bot (as player 2).
-
     Args:
         Code input by user as a string, like: 'BBYY'.
-
     Returns:
         A guess in the form of a string, like 'BBYY'.
     """
     print(code)
-    # feedback = feedback()
+    feedback = feedback()
 
-    # guess = ''
-    # tuple = new_combinations('GGGG','YYYY')[0] #<= convert tuple to str              #<= feedback arg
-    # for i in tuple:
-    #     guess += i
-    # return guess # <= str 'BYBY'
-
-
-
-
+    guess = ''
+    tuple = new_combinations((0,0))[0] #<= convert tuple to str              #<= feedback arg
+    for i in tuple:
+        guess += i
+    return guess # <= str 'BYBY'
 
 
 def looking_ahead():
     """
     The 'Looking one step ahead' strategy.
-
     Returns:
         A guess in the form of a string, like 'BBYY'.
     """
@@ -226,10 +216,16 @@ def game_mode_1_player1():
             print(f'The bot has guessed: {guess} and has {11 - guesses} guess(es) left.\nYou have {black} black pin(s) and {white} white pin(s).\n')
 
 
-    while medium:
-        simple_strategy(code)
-        if simple_strategy(code) == code
-            print(f'The bot has won within {guesses} guess(es).')
+    while medium and guesses < 11:
+        guesses += 1
+        if guesses == 1:
+            guess = 'BBBB'                     # <=========================== HARDCODED FIRST GUESS!!!!!
+            if guess == code:
+                print(f'The bot has won within {guesses} guess(es).\nThe guess was: {guess}.')
+                break
+        guess = simple_strategy()
+        if guess == code:
+            print(f'The bot has won within {guesses} guess(es).\nThe guess was: {guess}.')
             break
 
 
@@ -282,7 +278,6 @@ def game_mode_1_player2():
     """
     This game mode will play when the player chooses option 1 in the menu.
     The player plays against a bot and has to guess the right code.
-
     Raises:
         ValueError: when a player tries to enter a guess with invalid and/or too less/many characters.
     """
@@ -340,7 +335,6 @@ def menu():
     """
     Welcomes the player and asks for what game mode the player(s) want(s) to play.
     The game can be played with 2 players, with one player against a bot or you can watch 2 bots play.
-
     Raises:
         ValueError: when a player types in an invalid character.
     """
