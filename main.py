@@ -140,20 +140,28 @@ def random_guess():
     return guess
 
 
-def simple_strategy():
+def simple_strategy(code:str):
     """
     A guessing algorithm for a bot (as player 2).
+
+    Args:
+        Code input by user as a string, like: 'BBYY'.
 
     Returns:
         A guess in the form of a string, like 'BBYY'.
     """
+    print(code)
     # feedback = feedback()
 
-    guess = ''
-    tuple = new_combinations()[0] #<= convert tuple to str              #<= feedback arg
-    for i in tuple:
-        guess += i
-    return guess # <= str 'BYBY'
+    # guess = ''
+    # tuple = new_combinations('GGGG','YYYY')[0] #<= convert tuple to str              #<= feedback arg
+    # for i in tuple:
+    #     guess += i
+    # return guess # <= str 'BYBY'
+
+
+
+
 
 
 def looking_ahead():
@@ -195,15 +203,13 @@ def game_mode_1_player1():
             break
         elif difficulty == 'Medium':
             medium = True
-            # game_mode = simple_strategy()
             print('Medium mode WIP')
             break
         elif difficulty == 'Hard':
             hard = True
-            # looking_ahead()
             print('Hard mode WIP')
             break
-        print('Please type in your wished difficulty mode.')
+        print('Please type in your preferred difficulty mode.')
         continue
 
 
@@ -219,21 +225,29 @@ def game_mode_1_player1():
             white = feedback(guess, code)[1]
             print(f'The bot has guessed: {guess} and has {11 - guesses} guess(es) left.\nYou have {black} black pin(s) and {white} white pin(s).\n')
 
+
     while medium:
-        if guesses < 11:
-            if guesses < 1:
-                guess = 'BBBB'
+        simple_strategy(code)
+        if simple_strategy(code) == code
+            print(f'The bot has won within {guesses} guess(es).')
+            break
 
-            guess = simple_strategy()
-            guesses += 1
-            if guess == code:
-                print(f'The bot has won within {guesses} guess(es).')
-                break
 
-            black = feedback(guess, code)[0]
-            white = feedback(guess, code)[1]
-            print(f'The bot has guessed: {guess} and has {11 - guesses} guess(es) left.\nYou have {black} black pin(s) and {white} white pin(s).\n')
-
+    # while medium:
+    #     if guesses < 11:
+    #         if guesses < 1:
+    #             guess = 'BBBB'
+    #
+    #         guess = simple_strategy()
+    #         guesses += 1
+    #         if guess == code:
+    #             print(f'The bot has won within {guesses} guess(es).')
+    #             break
+    #
+    #         black = feedback(guess, code)[0]
+    #         white = feedback(guess, code)[1]
+    #         print(f'The bot has guessed: {guess} and has {11 - guesses} guess(es) left.\nYou have {black} black pin(s) and {white} white pin(s).\n')
+    #
 
 
 
