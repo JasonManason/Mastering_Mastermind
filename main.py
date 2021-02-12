@@ -27,7 +27,7 @@ def possible_combinations():
     return (list(itertools.product(valid_chars, repeat=4)))
 
 
-def new_combinations():
+def new_combinations(number_of_guesses):
     """
     Takes in a list of all combinations, the guess and feedback on the guess.
     Reduces the list of possible combinations and returns this.
@@ -37,7 +37,7 @@ def new_combinations():
     all_combinations = possible_combinations()
     new_combinations = []
     last_guesses = []
-    guess = simple_strategy() # <= string 'BBBB'
+    guess = simple_strategy(number_of_guesses) # <= string 'BBBB'
     feedback = (guess, ask_code())
 
     print(feedback)
@@ -155,31 +155,26 @@ def random_guess():
     return guess
 
 
-def simple_strategy():
+def simple_strategy(number_of_guesses):
     """
     A guessing algorithm for a bot (as player 2).
 
     Returns:
         A guess in the form of a string, like 'BBYY'.
     """
-    all_options = possible_combinations()  #<= if reduced, then first option changes all the time!!
-
-    #remove options from all combo's
-    #if not first guess: new_combinations()
-
-    all_options = new_combinations()
-
-    print(all_options)
+    all_options = possible_combinations()
     guess = ''
 
-    for char in all_options[0]:
-        while len(guess) < 4:
-            guess += char
+    for option in all_options:
+        if option in new_combinations(number_of_guesses):
+            for char in all_options[number_of_guesses]:
+                while len(guess) < 4:
+                    guess += char
 
 
-    print(guess)
+    print(f'guess:\t {guess}')
 
-    return guess # <= str 'BYBY'
+    return guess
 
 
 def looking_ahead():
@@ -235,16 +230,13 @@ def game_mode_1_player1():
 
     while medium and guesses < 11:
         guesses += 1
-        if guesses == 1:
-            guess = 'BBBB' # <= Hardcoded first guess!
-            if guess == code:
-                print(f'The bot has won within {guesses} guess(es).\nThe guess was: {guess}.')
-                break
-        guess = simple_strategy()
+        guess = simple_strategy(guesses - 1)
         if guess == code:
             print(f'The bot has won within {guesses} guess(es).\nThe guess was: {guess}.')
             break
-
+        black = feedback(guess, code)[0]
+        white = feedback(guess, code)[1]
+        #print(f'The bot has guessed: {guess} and has {11 - guesses} guess(es) left.\nYou have {black} black pin(s) and {white} white pin(s).\n')
 
     while hard:
         print('Hard mode WIP')
