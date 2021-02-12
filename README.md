@@ -9,26 +9,26 @@ This project is for educational purposes only.
 ## Use of modules:
     random generator
     itertools
+    
+    
+## User instructions:
+    When you run the program, you can pick one of the 3 menu options by typing in the corresponing number.
+    After picking a game mode, you can choose as which player you want to play.
+    When picking game mode 1, player 1 you also get to pick the difficulty.
+    Right now you can only play on easy.
+    When picking game mode 1, player 2 you get to guess the code the bot has made.
+    If you guess the code within 10 rounds, you have won, otherwise the bot wins.
+    Furthermore, you get feedback in the form of black and white pins.
+    A black pin means one of your guesses is in the correct spot.
+    A white pin means one of your guesses is in the code, but not in the right spot.
+    
+    Alltogether, Make sure to have fun!
 
-
-## Summary:
-    Program will as the player what gamemode they want to play.
-    Player confirms choice.
-    Game will start in that gamemode.
-    If the player plays against another player, they will have to take turns.
-    If the player decides to play against the bot, they can select a difficulty, the bot will perform a different strategy based on this choice.
-    If the player chooses to watch two bots play, they "guessing" bot will perform a random strategy.
-    The guessing player gets 10 turns to guess the secret code combination of the other player.
-    The player with the code gets to give feedback in the form of white, black or no pins or any combination thereof consisting of a maximum of 4 pins.
-    A black pin means: One of the guesses is in the right place.
-    A white pin means: One of the guesses was right, but sits in the wrong place.
-    If the code doesn't get guessed by player 1, player 2 wins.
-    If the code gets guessed within 10 turns, player 1 wins.
 
 
 ## pseudocode:
 ## Function for menu creation:
-    The menu what gamemode the player wants to play
+    The menu asks what gamemode the player wants to play
     
     if player = player 1:
         let player pick code consisting of 4 spots, with a choice of 6 colours
@@ -36,55 +36,68 @@ This project is for educational purposes only.
     if player = player 2:
         call on function to create random code for player 1
 
-    function returns player choice
+    function returns game mode and player choice
     
 
-## Functie random code:
-    Function creates random code in the form of a key, value pair
-    key = number
-    value = colour
+## Function random code:
+    Function creates random code in the form of a string
+
+    function returns code
+   
+   
+## Function possible combinations:
+    Function creates all possible combinations of colours
     
-    the dictionary length is 6
-
-    generate random code from dictionary with a lengte of 4
-    This is still a key, value pair
-
-    functie returns code
+    function returns a list of possible codes
+    
+    
+## Function new combinations
+    Function reads all possible combinations of possible combinations functions
+    
+    With feedback on the last made guess
+        if feedback is a sum of 4 pins
+            create possible combinations list with only the colours of the current guess
+           
+        if feedback is a sum of 0 pins
+            do not use any of the current colours of the current guess anymore
+            
+        if feedback is a sum of 1
+            keep one of the colours
+        
+        if feedback is a sum of 2
+            keep two of the colours
+        
+        if feedback is a sum of 3
+            keep three of the colours
+            
+      Function returns a new list of possible combinations
+      
+ ## Function feedback
+    Function checks both the code and the current guess and returns black or white pins according to the accuracy of the guess
+    
+    Function returns number of black and white pins, with a maximum total together of 4 pins
     
 
-## Generate rules:
-    If player 2 has guessed 10 times
-        the game ends and player 1 wins
-    if player 2 has guessed 8 or 9 times
-        give the player a warning with how many moves are left
+## Function ask player for code
+    If player has chosen to play against a bot as the one who has to make a code,
+    ask the player for a code
+    keep asking for code until input is the right format
+    
+    Function returns the code
+    
 
+## Function random guess
+    If the bot has to do a guess against the player
+    try a random combination of colours
+    
+    function returns a random guess
+    
+ ## Function simple strategy
+    Count all the possible guesses up til 10
+    Ask for a list of the current possible combinations
+    
+    grab the first possible combination from function new combinations
+    
+    function returns this guess
+        
 
-
-## Function guessing:
-    try:
-        input, ask player 2 to make a guess
-    if the input is too long unreadable, not in the right form
-        ask the player to make another guess, reminding them of the format
-
-    function returns the guess
-
-
-## Function check guess:
-    guess = call on function guessing
-    feedback = empty text: ''
-    answer = function code
-
-
-    check if guess is the same as the answer
-        if the guess and the answer are the same
-            return that player has won the game
-
-        if the guess has one or more pins in the right place
-            give feedback like: 2,0,0,0 > 1 is in the right place, 3 are not in the code
-
-        if the guess has one or more of the same pin from the answer AND they are in the wrong place
-            give feedback like: 1,0,1,0 > 2 of the pins are in the code, but in a different place
-
-    function returns feedback in the form of a count of 0's, 1's and 2's
-    for example: there were two 1's and two 0's    
-    (keeping in mind a maximum amount of pins of 4)
