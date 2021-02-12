@@ -27,7 +27,7 @@ def possible_combinations():
     return (list(itertools.product(valid_chars, repeat=4)))
 
 
-def new_combinations(feedback:tuple):
+def new_combinations():
     """
     Takes in a list of all combinations, the guess and feedback on the guess.
     Reduces the list of possible combinations and returns this.
@@ -37,6 +37,7 @@ def new_combinations(feedback:tuple):
     new_combinations = []
     last_guesses = []
     guess = simple_strategy() # <= string 'BBBB'
+    feedback = (guess, ask_code())
 
     print(feedback)
     print(guess)
@@ -88,6 +89,26 @@ def new_combinations(feedback:tuple):
         # if char van guess not in code optie van list all combi: append to new_options
 
 
+def ask_code():
+    """
+    Keeps asking user for a viable code as an input until it's the right format.
+
+    Returns:
+        A code as a string, like 'BBYY'
+    """
+    valid_chars = ['B', 'Y', 'R', 'G', 'P', 'O']
+    code = str(input('You can now enter a code consisting of a 4 letter combination of the first letters of the colours, like so: "YGBP" for Yellow, Green, Blue, Purple.\n'
+              'Your choices are:\nB: Blue\nY: Yellow\nR: Red\nG: Green\nP: Purple\nO: Orange\n'
+              'The bot will try to guess your code within 10 tries.\n')).upper()
+
+    for i in code:
+        if len(code) < 4 or len(code) > 4 or i not in valid_chars:
+            print('The code should be a precise length of 4 and only consist of valid colours.\n')
+            game_mode_1_player1()
+
+    return code
+
+
 def feedback(guess:str, code:str):
     """
     Takes the current guess and code as input and returns feedback in the form of black and white pins.
@@ -137,21 +158,48 @@ def random_guess():
     return guess
 
 
+# def simple_strategy():
+#     """
+#     A guessing algorithm for a bot (as player 2).
+#     Args:
+#         Code input by user as a string, like: 'BBYY'.
+#     Returns:
+#         A guess in the form of a string, like 'BBYY'.
+#     """
+#     # feedback = feedback()
+#     print('hello')
+#
+#     guess = ''
+#     tuple = new_combinations((0,0))[0] #<= convert tuple to str              #<= feedback arg
+#     for i in tuple:
+#         guess += i
+#     return guess # <= str 'BYBY'
+
+
 def simple_strategy():
     """
     A guessing algorithm for a bot (as player 2).
-    Args:
-        Code input by user as a string, like: 'BBYY'.
+
     Returns:
         A guess in the form of a string, like 'BBYY'.
     """
-    print(code)
-    feedback = feedback()
+    all_options = possible_combinations()  #<= if reduced, then first option changes all the time!!
 
+    #remove options from all combo's
+    #if not first guess: new_combinations()
+
+    all_options = new_combinations()
+
+    print(all_options)
     guess = ''
-    tuple = new_combinations((0,0))[0] #<= convert tuple to str              #<= feedback arg
-    for i in tuple:
-        guess += i
+
+    for char in all_options[0]:
+        while len(guess) < 4:
+            guess += char
+
+
+    print(guess)
+
     return guess # <= str 'BYBY'
 
 
@@ -170,17 +218,7 @@ def game_mode_1_player1():
     This game mode will play when the player chooses option 1 in the menu.
     The player plays against a bot as the one who creates a code and gives feedback.
     """
-    valid_chars = ['B', 'Y', 'R', 'G', 'P', 'O']
-    code = str(input('You can now enter a code consisting of a 4 letter combination of the first letters of the colours, like so: "YGBP" for Yellow, Green, Blue, Purple.\n'
-              'Your choices are:\nB: Blue\nY: Yellow\nR: Red\nG: Green\nP: Purple\nO: Orange\n'
-              'The bot will try to guess your code within 10 tries.\n')).upper()
-    guesses = 0
-
-    for i in code:
-        if len(code) < 4 or len(code) > 4 or i not in valid_chars:
-            print('The code should be a precise length of 4 and only consist of valid colours.\n')
-            game_mode_1_player1()
-
+    code = ask_code()
     guesses = 0
     easy = False
     medium = False
@@ -264,10 +302,6 @@ def game_mode_1_player1():
             #     print(f'The bot has won within {guesses} guess(es).')
             #     break
 
-        '''
-        probeer guesses == 0 als true te krijgen, zodat in simple_strategy de if statement werkt
-        guesses > 0 moet de elif statement in simple_strategy activeren
-        '''
 
     while hard:
         print('Hard mode WIP')
